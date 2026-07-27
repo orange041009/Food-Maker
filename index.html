@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>食光味道 · 家常菜谱大全</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo" onclick="showHome()">🍚 食光味道</div>
+    <nav id="nav-main">
+      <button data-view="home" class="active">首页</button>
+      <button data-view="categories">分类浏览</button>
+    </nav>
+    <div class="search-box">
+      <input id="search-input" type="text" placeholder="搜索菜名或食材，如「豆腐」「鸡」...">
+      <button id="search-btn" aria-label="搜索">🔍</button>
+    </div>
+  </div>
+</header>
+
+<main id="main-content"></main>
+
+<footer>
+  🍥 食光味道 · 纯前端示例菜谱网站 · 数据仅供学习演示
+</footer>
+
+<!-- 详情弹层 -->
+<div class="detail-overlay" id="detail-overlay">
+  <div class="detail-panel" id="detail-panel"></div>
+</div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -21,7 +21,7 @@
 2. **本地静态服务器**（推荐）：
 
    ```bash
-   cd recipe-site
+   cd Food-Maker
    python3 -m http.server 8080
    ```
 

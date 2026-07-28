@@ -16,7 +16,7 @@
   <!-- Emoji -->
   <text x="200" y="115" text-anchor="middle" font-size="60" filter="url(#shadow)">🍗</text>
   <!-- Dish name -->
-  <text x="200" y="175" text-anchor="middle" font-family="PingFang SC,Microsoft YaHei,sans-serif" font-size="28" font-weight="bold" fill="white" filter="url(#shadow)">叫化鸡</text>
+  <text x="200" y="175" text-anchor="middle" font-family="PingFang SC,Microsoft YaHei,sans-serif" font-size="28" font-weight="bold" fill="white" filter="url(#shadow)">叫花鸡</text>
   <!-- Cuisine badge -->
   <rect x="140" y="200" width="120" height="32" rx="16" fill="rgba(255,255,255,0.2)"/>
   <text x="200" y="222" text-anchor="middle" font-family="PingFang SC,Microsoft YaHei,sans-serif" font-size="15" fill="rgba(255,255,255,0.9)">浙菜</text>

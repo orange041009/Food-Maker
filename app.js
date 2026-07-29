@@ -131,24 +131,21 @@ function toggleFilter() {
   const btn = document.getElementById("filter-toggle");
   const isOpen = panel.classList.toggle("open");
   btn.classList.toggle("open", isOpen);
-  // 移动端背景遮罩 + 滚动锁定
+  // 移动端背景遮罩（不用 body overflow:hidden，iOS Safari 有 bug 会阻止 fixed 子元素滚动）
   if (isOpen && window.innerWidth <= 640) {
     let backdrop = document.getElementById("filter-backdrop");
     if (!backdrop) {
       backdrop = document.createElement("div");
       backdrop.id = "filter-backdrop";
-      backdrop.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:149;";
+      // touch-action:none 阻止触摸穿透到 body，替代 body overflow:hidden
+      backdrop.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:149;touch-action:none;";
       backdrop.addEventListener("click", toggleFilter);
       document.body.appendChild(backdrop);
     }
     backdrop.style.display = "block";
-    document.body.style.overflow = "hidden";
   } else {
     const backdrop = document.getElementById("filter-backdrop");
     if (backdrop) backdrop.style.display = "none";
-    if (!document.getElementById("detail-overlay").classList.contains("open")) {
-      document.body.style.overflow = "";
-    }
   }
 }
 
@@ -500,7 +497,8 @@ function closeFilterPanel() {
     const bd = document.getElementById("filter-backdrop");
     if (bd) bd.style.display = "none";
     if (!document.getElementById("detail-overlay").classList.contains("open")) {
-      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.width = "";
     }
   }
 }
@@ -672,7 +670,9 @@ function openDetail(id) {
   `;
 
   document.getElementById("detail-overlay").classList.add("open");
-  document.body.style.overflow = "hidden";
+  // iOS Safari bug: body overflow:hidden 阻止 fixed 子元素滚动，改用 overlay 自带的 touch-action
+  document.body.style.position = "fixed";
+  document.body.style.width = "100%";
   history.replaceState(null, "", `#recipe-${id}`);
   // 显示 AI 问答区域
   if (typeof showRecipeAsk === "function") { showRecipeAsk(r); }
@@ -680,7 +680,8 @@ function openDetail(id) {
 
 function closeDetail() {
   document.getElementById("detail-overlay").classList.remove("open");
-  document.body.style.overflow = "";
+  document.body.style.position = "";
+  document.body.style.width = "";
   history.replaceState(null, "", location.pathname);
 }
 

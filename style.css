@@ -1027,6 +1027,8 @@ section { margin-bottom: 48px; }
   overflow-y: auto;
   z-index: 200;
   padding: 40px 16px;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
 }
 
 .detail-overlay.open { display: flex; }
@@ -1277,6 +1279,7 @@ footer {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+  -webkit-overflow-scrolling: touch;
 }
 
 .chips .chip {

@@ -1762,19 +1762,18 @@ footer {
   }
 
   /* --- 横向滚动容器 --- */
+  .filter-grid .filter-section { min-width: 0; overflow: hidden; }
   .category-chips, .chips {
     flex-wrap: nowrap !important;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-    scroll-snap-type: x proximity;
     scrollbar-width: none;
     padding-bottom: 8px;
-    -webkit-scroll-snap-type: x proximity;
+    width: 100%;
   }
   .category-chips::-webkit-scrollbar, .chips::-webkit-scrollbar { display: none; }
   .category-chips button, .chips .chip {
     flex-shrink: 0;
-    scroll-snap-align: start;
     white-space: nowrap;
   }
 

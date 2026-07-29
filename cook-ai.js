@@ -122,7 +122,7 @@ function sendChat() {
   });
 }
 
-function addChatBubble(role, text, className) {
+function addChatBubble(role, text, className, skipScroll) {
   const container = document.getElementById("chat-messages");
   const id = "msg-" + Date.now() + "-" + Math.random().toString(36).slice(2, 6);
   const bubble = document.createElement("div");
@@ -130,7 +130,7 @@ function addChatBubble(role, text, className) {
   bubble.className = `chat-bubble ${role} ${className || ""}`;
   bubble.innerHTML = role === "bot" ? formatChatReply(text) : escapeHtml(text);
   container.appendChild(bubble);
-  scrollChatBottom();
+  if (!skipScroll) scrollChatBottom();
   return id;
 }
 
@@ -166,8 +166,9 @@ function restoreChatHistory() {
   container.innerHTML = "";
   chatHistory.forEach(h => {
     const role = h.role === "assistant" ? "bot" : "user";
-    addChatBubble(role, h.content);
+    addChatBubble(role, h.content, "", true); // skipScroll 避免逐条滚动
   });
+  scrollChatBottom(); // 只在最后滚动一次到底部
 }
 
 // 聊天输入框回车发送
@@ -277,4 +278,17 @@ async function checkAIAvailable() {
     }
   });
   restoreChatHistory();
+
+  // 修复：如果页面初始加载时已通过 hash 打开菜谱详情，补设置 AI 问答区
+  const overlay = document.getElementById("detail-overlay");
+  if (overlay && overlay.classList.contains("open")) {
+    const askArea = document.getElementById("ask-recipe-area");
+    if (askArea) {
+      askArea.style.display = "block";
+      const hash = location.hash;
+      if (hash.startsWith("#recipe-") && typeof getRecipeById === "function") {
+        currentAskRecipe = getRecipeById(hash.replace("#recipe-", ""));
+      }
+    }
+  }
 })();

@@ -116,13 +116,23 @@ function injectVideoButton(recipe) {
     return;
   }
 
-  // 包装 openDetail 注入购买按钮
+  // 包装 openDetail 注入购买按钮（使用递增 ID 防止快速切换菜谱时的竞态）
   const _openDetail = window.openDetail;
+  let detailCallId = 0;
   if (_openDetail) {
     window.openDetail = function(id) {
       _openDetail(id);
       const recipe = getRecipeById(id);
-      if (recipe) { setTimeout(() => injectBuyButton(recipe), 100); setTimeout(() => injectVideoButton(recipe), 150); }
+      if (recipe) {
+        const myCallId = ++detailCallId;
+        window._monetizeDetailId = myCallId;
+        setTimeout(() => {
+          if (window._monetizeDetailId === myCallId) injectBuyButton(recipe);
+        }, 100);
+        setTimeout(() => {
+          if (window._monetizeDetailId === myCallId) injectVideoButton(recipe);
+        }, 150);
+      }
     };
   }
 })();

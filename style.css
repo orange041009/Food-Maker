@@ -318,6 +318,13 @@ nav button:hover, nav button.active {
 }
 
 /* Mobile */
+
+/* iOS Safari 滚动兼容 — touch-action 明确告诉浏览器哪些方向可滚动 */
+.detail-panel { touch-action: pan-y; }
+.filter-panel { touch-action: pan-y; }
+.chat-messages { touch-action: pan-y; }
+.filter-panel .chips { touch-action: pan-x pan-y; }
+
 @media (max-width: 640px) {
   .wizard-card {
     padding: 36px 20px 28px;
@@ -1029,6 +1036,7 @@ section { margin-bottom: 48px; }
   padding: 40px 16px;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
+  touch-action: pan-y;
 }
 
 .detail-overlay.open { display: flex; }
@@ -1280,6 +1288,16 @@ footer {
   flex-wrap: wrap;
   gap: 6px;
   -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
+}
+
+.category-chips {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
 }
 
 .chips .chip {

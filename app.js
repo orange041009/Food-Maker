@@ -496,10 +496,6 @@ function closeFilterPanel() {
     document.getElementById("filter-toggle").classList.remove("open");
     const bd = document.getElementById("filter-backdrop");
     if (bd) bd.style.display = "none";
-    if (!document.getElementById("detail-overlay").classList.contains("open")) {
-      document.body.style.position = "";
-      document.body.style.width = "";
-    }
   }
 }
 
@@ -670,9 +666,6 @@ function openDetail(id) {
   `;
 
   document.getElementById("detail-overlay").classList.add("open");
-  // iOS Safari bug: body overflow:hidden 阻止 fixed 子元素滚动，改用 overlay 自带的 touch-action
-  document.body.style.position = "fixed";
-  document.body.style.width = "100%";
   history.replaceState(null, "", `#recipe-${id}`);
   // 显示 AI 问答区域
   if (typeof showRecipeAsk === "function") { showRecipeAsk(r); }
@@ -680,9 +673,10 @@ function openDetail(id) {
 
 function closeDetail() {
   document.getElementById("detail-overlay").classList.remove("open");
-  document.body.style.position = "";
-  document.body.style.width = "";
   history.replaceState(null, "", location.pathname);
+  // 清除 AI 问答状态的菜谱引用
+  if (typeof currentAskRecipe !== "undefined") { currentAskRecipe = null; }
+  if (typeof window._monetizeDetailId !== "undefined") { window._monetizeDetailId = null; }
 }
 
 document.getElementById("detail-overlay").addEventListener("click", (e) => {
@@ -690,7 +684,16 @@ document.getElementById("detail-overlay").addEventListener("click", (e) => {
 });
 
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") closeDetail();
+  if (e.key === "Escape") {
+    const detailOpen = document.getElementById("detail-overlay").classList.contains("open");
+    const chatPanel = document.getElementById("chat-panel");
+    const chatOpen = chatPanel && chatPanel.classList.contains("open");
+    if (detailOpen) {
+      closeDetail();
+    } else if (chatOpen && typeof toggleChat === "function") {
+      toggleChat();
+    }
+  }
 });
 
 // ============================================================

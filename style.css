@@ -1848,7 +1848,9 @@ footer {
   .detail-panel {
     border-radius: 0;
     max-width: 100%;
-    min-height: 100vh;
+    height: 100vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
   .detail-hero { height: 200px; }
   .detail-body { padding: 20px 16px 32px; }
